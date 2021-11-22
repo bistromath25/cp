@@ -1,8 +1,10 @@
+/* Graph class storing edges in adjacency list representation */
+
 template<class Edge>
 class Graph {
 private:
-    int V;
-    vector<Edge> *adj;  // adjacency list representation
+    int V;  // number of vertices
+    vector<Edge> *adj;  // adjacency list
 public:
     Graph() {
         V = 2e5;
@@ -19,13 +21,12 @@ public:
         V = _V;
         adj = new vector<Edge>[V];
     }
-    void add(int v, Edge e) {
-        if (find(adj[v].begin(), adj[v].end(), e) == adj[v].end()) {
+    void add(int v, Edge e) {  // add the edge only if it's not already in the graph
+        if (find(adj[v].begin(), adj[v].end(), e) == adj[v].end()) {  // probably not the most efficient idea
             adj[v].push_back(e);
         }
-        adj[v].push_back(e);
     }
-    void del(int v, Edge e) {
+    void del(int v, Edge e) {  // erase all instances of this edge
         adj[v].erase(remove(adj[v].begin(), adj[v].end(), e), adj[v].end());
     }
     vector<Edge>& operator [](int v) {
