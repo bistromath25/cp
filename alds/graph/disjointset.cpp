@@ -6,6 +6,11 @@ class DisjointSet {
 private:
     unordered_map<T, int> parent, tree_size;
 public:
+    void init(int n) {
+        for (int x = 0; x <= n; ++x) {
+            make_set(x);
+        }
+    }
     void init(vector<T> const& v) {
         for (T x : v) {
             make_set(x);
@@ -15,7 +20,7 @@ public:
         parent[x] = x;
         tree_size[x] = 0;
     }
-    T find_set(T x) {
+    int find_set(T x) {
         if (x == parent[x]) {
             return x;
         }
@@ -36,6 +41,9 @@ public:
                 tree_size[y]++;
             }
         }
+    }
+    bool same_set(T x, T y) {
+        return find_set(x) == find_set(y);
     }
 };
 
