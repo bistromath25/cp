@@ -30,9 +30,9 @@ void dfs2(int x) {  // dfs moving along reverse edges
     }
 }
 
-bool bellman_ford(int x, int y) {  // true if no negative cycle along path from a to b, false otherwise
-    dfs1(x);
-    dfs2(y);
+bool bellman_ford(int x, int y) {  // true if no negative cycle along path from x to y, false otherwise
+    dfs1(x);  // reach all possible vertices from x
+    dfs2(y);  // reach all possible vertices from y
 
     for (int i = 1; i <= n; ++i) {
         dist[i] = INF;
