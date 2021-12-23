@@ -19,7 +19,7 @@
     }
      
     for (auto e : edges) {  // check for negative cycle
-        if (dist[e.a] != LLINF && dist[e.a] + e.b < dist[e.b]) {  // if this path can be further improved
+        if (dist[e.a] != INF && dist[e.a] + e.b < dist[e.b]) {  // if this path can be further improved
             cout << "negative cycle\n";  // there must be a negative weight cycle
             return;
         }
