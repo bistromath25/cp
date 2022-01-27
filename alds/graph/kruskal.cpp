@@ -1,31 +1,24 @@
 /* Kruskal MST with disjoint set using union by size */
 
-vector<int> parent, tree_size;
+vector<int> parent, sz;
 
 void make_set(int x) {
     parent[x] = x;
-    tree_size[x] = 0;
+    sz[x] = 0;
 }
 
 int find_set(int x) {
-    if (x == parent[x]) {
-        return x;
-    }
+    if (x == parent[x]) return x;
     return parent[x] = find_set(parent[x]);
 }
 
 void merge_sets(int x, int y) {
     x = find_set(x);
     y = find_set(y);
-    if (x != y) {
-        if (tree_size[x] < tree_size[y]) {
-            swap(x, y);
-        }
-        parent[y] = x;
-        if (tree_size[x] == tree_size[y]) {
-            tree_size[x]++;
-        }
-    }
+    if (x == y) return;
+    if (sz[x] < sz[y]) swap(x, y);
+    parent[y] = x;
+    sz[x] += sz[y];
 }
 
 struct Edge {
@@ -41,7 +34,7 @@ vector<Edge> edges;
 int cost = 0;
 vector<Edge> mst;
 parent.resize(n);
-tree_size.resize(n);
+sz.resize(n);
 
 // initialize parent array
 for (int i = 0; i < n; i++) {
