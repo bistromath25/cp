@@ -1,72 +1,27 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-template<class T>
-class DisjointSet {
-private:
-    unordered_map<T, int> parent, tree_size;
-public:
-    void init(int n) {
-        for (int x = 0; x <= n; ++x) {
-            make_set(x);
+struct DSU {
+    vector<int> p, sz;
+    void init(int N) {
+        p.resize(N + 1);
+        sz.resize(N + 1);
+        for (int i = 0; i <= N; ++i) {
+            p[i] = i;
+            sz[i] = 1;
         }
     }
-    void init(vector<T> const& v) {
-        for (T x : v) {
-            make_set(x);
-        }
+    int find(int x) {
+        if (x == p[x]) return x;
+        return p[x] = find(p[x]);
     }
-    void make_set(T x) {
-        parent[x] = x;
-        tree_size[x] = 0;
+    bool same(int x, int y) {
+        return find(x) == find(y);
     }
-    int find_set(T x) {
-        if (x == parent[x]) {
-            return x;
-        }
-        return parent[x] = find_set(parent[x]);
-    }
-    void merge_sets(T x, T y) {
-        x = find_set(x);
-        y = find_set(y);
-        if (x != y) {
-            if (tree_size[x] > tree_size[y]) {
-                parent[y] = x;
-            }
-            else if (tree_size[x] < tree_size[y]) {
-                parent[x] = y;
-            }
-            else {
-                parent[x] = y;
-                tree_size[y]++;
-            }
-        }
-    }
-    bool same_set(T x, T y) {
-        return find_set(x) == find_set(y);
+    bool merge(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x == y) return false;
+        if (sz[x] < sz[y]) swap(x, y);
+        p[y] = x;
+        sz[x] += sz[y];
+        return true;
     }
 };
-
-template<class T>
-void print_sets(vector<T> const &v, DisjointSet<T> &ds) {
-    for (int x : v) {
-        cout << ds.find_set(x) << ' ';
-    }
-    cout << '\n';
-}
-
-DisjointSet<int> DS;
-
-int main() {
-
-    vector<int> v = {1, 2, 3, 4, 5};
-
-    DS.init(v);
-
-    DS.merge_sets(1, 2);
-    DS.merge_sets(1, 5);
-
-    print_sets(v, DS);
-
-    return 0;
-}
